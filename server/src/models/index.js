@@ -4,6 +4,8 @@ const Workspace = require("./Workspace");
 const WorkspaceMember = require("./WorkspaceMember");
 const Project = require("./Project");
 const Task = require("./Task");
+const Comment = require("./Comment");
+const TaskHistory = require("./TaskHistory");
 
 // Define associations
 User.hasMany(Workspace, { foreignKey: "owner_id" });
@@ -32,6 +34,18 @@ User.hasMany(Task, { foreignKey: "created_by", as: "createdTasks" });
 Task.hasMany(Task, { foreignKey: "parent_task_id", as: "subtasks" });
 Task.belongsTo(Task, { foreignKey: "parent_task_id", as: "parentTask" });
 
+Task.hasMany(Comment, { foreignKey: "task_id" });
+Comment.belongsTo(Task, { foreignKey: "task_id" });
+
+User.hasMany(Comment, { foreignKey: "author_id", as: "comments" });
+Comment.belongsTo(User, { foreignKey: "author_id", as: "author" });
+
+Task.hasMany(TaskHistory, { foreignKey: "task_id" });
+TaskHistory.belongsTo(Task, { foreignKey: "task_id" });
+
+User.hasMany(TaskHistory, { foreignKey: "changed_by" });
+TaskHistory.belongsTo(User, { foreignKey: "changed_by" });
+
 module.exports = {
   sequelize,
   User,
@@ -39,4 +53,6 @@ module.exports = {
   WorkspaceMember,
   Project,
   Task,
+  Comment,
+  TaskHistory,
 };
