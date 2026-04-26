@@ -7,6 +7,7 @@ const { sequelize } = require("./models");
 const authRoutes = require("./routes/auth");
 const workspaceRoutes = require("./routes/workspace");
 const projectRoutes = require("./routes/project");
+const taskRoutes = require("./routes/task");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/workspaces", workspaceRoutes);
 app.use("/workspaces/:workspaceId/projects", projectRoutes);
+app.use("/workspaces/:workspaceId/projects/:projectId/tasks", taskRoutes);
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hey, there! API is working!" });
